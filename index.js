@@ -19,7 +19,7 @@ module.exports = class extends mofron.class.Component {
         try {
             super();
             this.modname("mofron-comp-selector");
-	    //this.shortForm("");
+	    this.shortForm("gridColumn");
             
 	    /* init config */
             
@@ -54,6 +54,25 @@ module.exports = class extends mofron.class.Component {
 	        set_ratio.push(100/prm);
             }
 	    this.layout({ modname:'Grid' }).ratio(set_ratio);
+	} catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+
+    child (prm, idx) {
+        try {
+	    if (true === Array.isArray(prm)) {
+                for (let cidx in prm) {
+                    this.child(prm[cidx]);
+		}
+		return;
+	    } else if (comutl.iscmp(prm)) {
+                let set_chd = new mofron.class.Component(prm);
+                super.child(set_chd, idx);
+                return;
+            }
+            return super.child(prm, idx);
 	} catch (e) {
             console.error(e.stack);
             throw e;
